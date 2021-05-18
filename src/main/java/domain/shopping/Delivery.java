@@ -17,10 +17,18 @@ public class Delivery {
     @OneToOne(mappedBy = "delivery")
     private Order order;
 
+    private Status status;
+
+    private enum Status {
+        PROCEED, COMPLETED
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Delivery{");
         sb.append("id=").append(id);
+        sb.append(", status=").append(status);
+        sb.append(", memberTo=").append(order.getMember());
         sb.append('}');
         return sb.toString();
     }

@@ -17,10 +17,20 @@ public class Delivery {
     @OneToOne(mappedBy = "delivery")
     private Order order;
 
+    @Enumerated(value = EnumType.STRING)
     private Status status;
 
     private enum Status {
         PROCEED, COMPLETED
+    }
+
+    public Delivery() {
+        this(null);
+    }
+
+    public Delivery(Order order) {
+        this.order = order;
+        this.status = Status.PROCEED;
     }
 
     @Override

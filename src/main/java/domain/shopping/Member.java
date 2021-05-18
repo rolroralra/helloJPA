@@ -1,5 +1,6 @@
 package domain.shopping;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +34,7 @@ public class Member {
         this(0L, "", "", "", "");
     }
 
+    @Builder
     public Member(Long id, String name, String city, String street, String zipcode) {
         this.id = id;
         this.name = name;

@@ -1,5 +1,6 @@
 package jpa.team;
 
+import domain.team.Locker;
 import domain.team.Member;
 import domain.team.Team;
 
@@ -34,6 +35,13 @@ public class JpaMain {
             Member memberB = Member.builder().name("MEMBER_B").team(teamB).build();
             em.persist(memberB);
 
+
+            Locker locker = new Locker();
+            locker.setName("LOCKER_01");
+            locker.setMember(memberA);
+            memberA.setLocker(locker);
+
+            em.persist(locker);
             em.flush();
             em.clear();
 

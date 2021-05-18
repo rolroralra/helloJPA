@@ -1,9 +1,6 @@
 package jpa.shopping;
 
-import domain.shopping.Item;
-import domain.shopping.Member;
-import domain.shopping.Order;
-import domain.shopping.OrderItem;
+import domain.shopping.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,19 +33,46 @@ public class JpaMain {
             Item item_02 = em.find(Item.class, 2L);
             Item item_03 = em.find(Item.class, 3L);
 
+            Category category_01 = new Category();
+            category_01.setName("KR");
+
+            Category category_02 = new Category();
+            category_02.setName("EU");
+
+            Category category_03 = new Category();
+            category_03.setName("US");
+
+            em.persist(category_01);
+            em.persist(category_02);
+            em.persist(category_03);
+
+            item_01.addCategory(category_02, category_03);
+            item_02.addCategory(category_01);
+            item_03.addCategory(category_01, category_03);
+
             System.out.println(member_02);
 
             Order order = createOrder(member_01);
             order.addOrderItem(item_01, 1800, 98);
             order.addOrderItem(item_02, 3400, 30);
 
+            Delivery delivery = new Delivery();
+            delivery.setOrder(order);
+            order.setDelivery(delivery);
+
             em.persist(order);
+            em.persist(delivery);
+
             for (OrderItem orderItem : order.getOrderItems()) {
                 em.persist(orderItem);
             }
             em.flush();
 
             System.out.println(em.find(Order.class, 1L));
+            System.out.println(em.find(Category.class, 1L).getItems());
+            System.out.println(em.find(Category.class, 2L).getItems());
+            System.out.println(em.find(Category.class, 3L).getItems());
+
 
             System.out.println("===== BEFORE PERSIST =====");
 //            em.persist(member);

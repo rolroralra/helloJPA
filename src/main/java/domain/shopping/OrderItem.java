@@ -1,5 +1,6 @@
 package domain.shopping;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,19 +34,26 @@ public class OrderItem {
     }
 
     public OrderItem(Order order, Item item, int orderPrice, int count) {
-        this.id = 0L;
-        this.order = order;
-        this.item = item;
-        this.orderPrice = orderPrice;
-        this.count = count;
+        this(0L, order, item, orderPrice, count);
+    }
+
+    @Builder
+    public OrderItem(Long id, Order order, Item item, int orderPrice, int count) {
+        checkNotNull(id);
+        checkArgument(orderPrice >= 0);
+        checkArgument(count >= 0);
+
+        this.setId(id);
+        this.setOrder(order);
+        this.setItem(item);
+        this.setOrderPrice(orderPrice);
+        this.setCount(count);
     }
 
     public static OrderItem of(Order order, Item item, int orderPrice, int count) {
         checkNotNull(order);
         checkNotNull(item);
-        checkArgument(orderPrice >= 0);
         checkArgument(orderPrice <= item.getPrice());
-        checkArgument(count >= 0);
         checkArgument(count <= item.getStockQuantity());
 
         return new OrderItem(order ,item, orderPrice, count);

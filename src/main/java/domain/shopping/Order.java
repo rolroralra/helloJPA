@@ -1,5 +1,6 @@
 package domain.shopping;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,16 +28,34 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "DELIVERY_ID")
+    private Delivery delivery;
+
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     public Order() {
-        this.setId(0L);
+        this(null);
+    }
+
+    public Order(Member member) {
+        this(0L, member, LocalDateTime.now(), OrderStatus.PROCEED);
+    }
+
+    @Builder
+    public Order(Long id, Member member, LocalDateTime orderDate, OrderStatus status) {
+        checkNotNull(id);
+        checkNotNull(orderDate);
+        checkNotNull(status);
+
+        this.setId(id);
+        this.setMember(member);
         this.setOrderItems(new ArrayList<>());
-        this.setOrderDate(LocalDateTime.now());
-        this.setStatus(OrderStatus.PROCEED);
+        this.setOrderDate(orderDate);
+        this.setStatus(status);
     }
 
     public static Order of(Member member) {
@@ -72,6 +91,7 @@ public class Order {
         sb.append(", orderItems=").append(orderItems);
         sb.append(", orderDate=").append(orderDate);
         sb.append(", status=").append(status);
+        sb.append(", delivery=").append(delivery);
         sb.append('}');
         return sb.toString();
     }

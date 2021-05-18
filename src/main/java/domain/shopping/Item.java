@@ -1,9 +1,15 @@
 package domain.shopping;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.*;
 
 @Entity
 @Table(name = "ITEM")
@@ -23,19 +29,39 @@ public class Item {
     @Column(name = "STOCK_QUANTITY")
     private int stockQuantity;
 
+    @ManyToMany
+    @JoinTable
+    private List<Category> categoryList;
+
     public Item() {
         this(0L, "", 0, 0);
     }
 
+    @Builder
     public Item(Long id, String name, int price, int stockQuantity) {
+        checkNotNull(id);
+        checkNotNull(name);
+        checkArgument(price >= 0);
+        checkArgument(stockQuantity >= 0);
+
         this.id = id;
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+        this.categoryList = new ArrayList<>();
     }
 
     public static Item of(String name, int price, int stockQuantity) {
         return new Item(0L, name, price, stockQuantity);
+    }
+
+    public void addCategory(Category... categories) {
+        for (Category category : categories) {
+            if (!categoryList.contains(category)) {
+                categoryList.add(category);
+                category.addItem(this);
+            }
+        }
     }
 
     @Override
@@ -45,6 +71,7 @@ public class Item {
         sb.append(", name='").append(name).append('\'');
         sb.append(", price=").append(price);
         sb.append(", stockQuantity=").append(stockQuantity);
+        sb.append(", categoryList=").append(categoryList);
         sb.append('}');
         return sb.toString();
     }

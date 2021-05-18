@@ -22,4 +22,13 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<Member> members = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Team{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -1,4 +1,4 @@
-package model;
+package domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +22,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
+    public enum RoleType {
+        GUEST, USER, ADMIN
+    }
+
     @Id
 //    @GeneratedValue
 //    @GeneratedValue(strategy = GenerationType.AUTO)

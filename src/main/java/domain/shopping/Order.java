@@ -1,0 +1,78 @@
+package domain.shopping;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+@Entity
+@Table(name = "ORDERS")
+@Getter
+@Setter
+public class Order {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ORDER_ID")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    private LocalDateTime orderDate;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    public Order() {
+        this.setId(0L);
+        this.setOrderItems(new ArrayList<>());
+        this.setOrderDate(LocalDateTime.now());
+        this.setStatus(OrderStatus.PROCEED);
+    }
+
+    public static Order of(Member member) {
+        checkNotNull(member);
+
+        Order order = new Order();
+        order.setMember(member);
+        return order;
+    }
+
+    public void addOrderItem(Item item, int orderPrice, int count) {
+        checkNotNull(item);
+        checkArgument(orderPrice >= 0);
+        checkArgument(orderPrice <= item.getPrice());
+        checkArgument(count >= 0);
+        checkArgument(count <= item.getStockQuantity());
+
+        addOrderItem(OrderItem.of(this, item, orderPrice, count));
+    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        checkNotNull(orderItem);
+
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Order{");
+        sb.append("id=").append(id);
+        sb.append(", member=").append(member);
+        sb.append(", orderItems=").append(orderItems);
+        sb.append(", orderDate=").append(orderDate);
+        sb.append(", status=").append(status);
+        sb.append('}');
+        return sb.toString();
+    }
+}

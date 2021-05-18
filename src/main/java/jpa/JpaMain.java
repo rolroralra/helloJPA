@@ -1,7 +1,6 @@
 package jpa;
 
-import model.Member;
-import model.RoleType;
+import domain.Member;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,15 +23,15 @@ public class JpaMain {
 //            member.setId("ID_A");
 //            member.setId(3L);
             member.setUsername("root");
-            member.setRoleType(RoleType.ADMIN);
+            member.setRoleType(Member.RoleType.ADMIN);
 
             Member member2 = new Member();
             member2.setUsername("admin");
-            member2.setRoleType(RoleType.ADMIN);
+            member2.setRoleType(Member.RoleType.ADMIN);
 
             Member member3 = new Member();
             member3.setUsername("guest");
-            member3.setRoleType(RoleType.GUEST);
+            member3.setRoleType(Member.RoleType.GUEST);
 
 
             System.out.println("===== BEFORE PERSIST =====");

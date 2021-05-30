@@ -1,21 +1,27 @@
 package jpa;
 
+import org.hibernate.Transaction;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public abstract class JpaMainTemplate {
+    protected EntityManagerFactory emf;
+    protected EntityManager em;
+    protected EntityTransaction tx;
+
     public void run() {
         run("test");
     }
 
     public void run(String persistenceUnitName) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+        emf = Persistence.createEntityManagerFactory(persistenceUnitName);
 
-        EntityManager em = emf.createEntityManager();
+        em = emf.createEntityManager();
 
-        EntityTransaction tx = em.getTransaction();
+        tx = em.getTransaction();
         tx.begin();
 
         try {

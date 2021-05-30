@@ -13,6 +13,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @Entity
 @Table(name = "ITEM")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "ITEM_TYPE")
 @Getter
 @Setter
 public class Item {

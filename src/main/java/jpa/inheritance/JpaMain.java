@@ -1,5 +1,6 @@
 package jpa.inheritance;
 
+import domain.inheritance.Album;
 import domain.inheritance.ArtItem;
 import domain.inheritance.Book;
 import domain.inheritance.Movie;
@@ -29,23 +30,28 @@ public class JpaMain {
 
             Book book = new Book();
             book.setPrice(200);
-            book.setName("BookName");
-            book.setAuthor("Author_01");
+            book.setName("흔들려야 어른이 된다");
+            book.setAuthor("김난도");
 
-
+            Album album = new Album();
+            album.setName("Geography");
+            album.setPrice(3000);
+            album.setArtist("Tom Misch");
 
             System.out.println("===== BEFORE PERSIST =====");
 
             em.persist(movie);
             em.persist(book);
+            em.persist(album);
 
             System.out.println("===== AFTER PERSIST =====");
 
             em.flush();
             em.clear();
 
-            em.find(ArtItem.class, 1L);
-            em.find(ArtItem.class, 2L);
+            System.out.println(em.find(ArtItem.class, movie.getId()));
+            System.out.println(em.find(ArtItem.class, book.getId()));
+            System.out.println(em.find(ArtItem.class, album.getId()));
 
             System.out.println("===== BEFORE COMMIT =====");
             tx.commit();

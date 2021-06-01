@@ -31,13 +31,13 @@ public class Item {
     @Column(name = "STOCK_QUANTITY")
     private int stockQuantity;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(
             name = "CATEGORY_ITEM",
             joinColumns = {@JoinColumn(name = "ITEM_ID")},
             inverseJoinColumns = {@JoinColumn(name = "CATEGORY_ID")}
     )
-    private List<Category> categoryList;
+    private List<Category> categoryList = new ArrayList<>();
 
     public Item() {
         this(0L, "", 0, 0);

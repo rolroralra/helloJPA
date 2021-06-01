@@ -19,6 +19,12 @@ public class Category {
     @Column
     private String name;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> children = new ArrayList<>();
+
     @ManyToMany(mappedBy = "categoryList")
     private List<Item> items = new ArrayList<>();
 

@@ -3,6 +3,7 @@ package domain.shopping;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -13,7 +14,10 @@ import javax.persistence.Table;
 @Getter
 @Setter
 public class BookItem extends Item {
+    @Column
     private String author;
+
+    @Column
     private String isbn;
 
     @Override

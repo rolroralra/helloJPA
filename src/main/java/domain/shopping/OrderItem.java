@@ -18,14 +18,18 @@ public class OrderItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_ITEM_ID")
     private Long id;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID")
     private Item item;
+
     @Column
     private int orderPrice;
+
     @Column
     private int count;
 

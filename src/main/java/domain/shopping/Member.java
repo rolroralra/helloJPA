@@ -27,7 +27,7 @@ public class Member {
     @Column
     private String zipcode;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
     public Member() {

@@ -1,8 +1,8 @@
 package jpa.proxy;
 
-import domain.team.Member;
+import domain.proxy.Member;
+import domain.proxy.Team;
 import jpa.JpaMainTemplate;
-import org.hibernate.Hibernate;
 
 import javax.persistence.EntityManager;
 
@@ -13,45 +13,53 @@ public class JpaMain extends JpaMainTemplate {
 
     @Override
     public void logic(EntityManager em) {
-        new jpa.team.JpaMain().logic(em);
-        System.out.println();
 
+        Member member = new Member();
+        member.setName("rolroralra");
+
+        Member member2 = new Member();
+        member2.setName("test");
+
+        Member member3 = new Member();
+        member3.setName("root");
+
+        Member member4 = new Member();
+        member4.setName("admin");
+
+        Team team = new Team();
+        team.setName("USER");
+
+        Team team2 = new Team();
+        team2.setName("ADMIN");
+
+        member.setTeam(team);
+        member2.setTeam(team);
+        member3.setTeam(team2);
+        member4.setTeam(team2);
+
+
+        em.persist(team);
+        em.persist(team2);
+
+        em.persist(member);
+        em.persist(member2);
+        em.persist(member3);
+        em.persist(member4);
+
+        em.flush();
         em.clear();
-//        System.out.println(em.find(Member.class, 1L));
-        Member member = em.getReference(Member.class, 1L);
-
-        // org.hibernate.LazyInitializationException : could not initialize proxy - no Session
-//         em.detach(member);
-//         em.clear();
-//         em.close();
-
-        System.out.println(member.getName());
-
-        System.out.printf("isLoaded = %s\n", emf.getPersistenceUnitUtil().isLoaded(member));
-        if (!emf.getPersistenceUnitUtil().isLoaded(member)) {
-            Hibernate.initialize(member);
-        }
-
-        System.out.println("=================");
-        System.out.println(member.getTeam());
-        System.out.println("=================");
-        System.out.println(em.getReference(Member.class, 1L));
-        System.out.println("=================");
-        System.out.println(member.getClass());
-        System.out.println("=================");
-        System.out.println(em.getReference(Member.class, 1L) instanceof Member);
-
-        System.out.println(em.getReference(Member.class, 1L));
-        System.out.println(em.find(Member.class, 1L));
-        System.out.println(em.getReference(Member.class, em.find(Member.class, 1L).getId()).getClass());
-
-        System.out.println("=================");
-
-        member = em.find(Member.class, 1L);
-        Member reference = em.getReference(Member.class, member.getId());
-        System.out.println(member.getClass());
-        System.out.println(reference.getClass());
 
 
+        System.out.println(em.createQuery("select m from ProxyMember m join fetch m.team").getResultList());
+//        System.out.println(em.createQuery("select t from ProxyTeam t where t.id = 1").getResultList());
+
+//        System.out.println(em.find(Member.class, member.getId()));
+//        System.out.println(em.find(Member.class, member.getId()));
+//        System.out.println(em.find(Member.class, member2.getId()));
+//        System.out.println(em.find(Member.class, member3.getId()));
+//        System.out.println(em.find(Member.class, member4.getId()));
+//
+//        System.out.println(em.find(Team.class, team.getId()));
+//        System.out.println(em.find(Team.class, team2.getId()));
     }
 }

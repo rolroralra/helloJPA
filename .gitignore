@@ -148,4 +148,6 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 
+data/**
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,maven,java,gradle

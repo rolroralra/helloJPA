@@ -1,11 +1,9 @@
 package jpa.mappedSuperClass;
 
-import domain.mappedSuperClass.BaseEntity;
 import domain.mappedSuperClass.Buyer;
 import domain.mappedSuperClass.Seller;
-import jpa.JpaMainTemplate;
-
 import javax.persistence.EntityManager;
+import jpa.JpaMainTemplate;
 
 public class JpaMain extends JpaMainTemplate {
     public static void main(String[] args) {

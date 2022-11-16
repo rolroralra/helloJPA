@@ -2,9 +2,8 @@ package jpa.proxy;
 
 import domain.proxy.Member;
 import domain.proxy.Team;
-import jpa.JpaMainTemplate;
-
 import javax.persistence.EntityManager;
+import jpa.JpaMainTemplate;
 
 public class JpaMain extends JpaMainTemplate {
     public static void main(String[] args) {

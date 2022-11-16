@@ -1,9 +1,13 @@
 package jpa.shopping;
 
-import domain.shopping.*;
-import jpa.JpaMainTemplate;
-
+import domain.shopping.AlbumItem;
+import domain.shopping.BookItem;
+import domain.shopping.Item;
+import domain.shopping.Member;
+import domain.shopping.MovieItem;
+import domain.shopping.Order;
 import javax.persistence.EntityManager;
+import jpa.JpaMainTemplate;
 
 public class JpaMain extends JpaMainTemplate {
     public static void main(String[] args) {

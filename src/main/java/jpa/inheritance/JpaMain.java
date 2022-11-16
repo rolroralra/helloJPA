@@ -4,9 +4,8 @@ import domain.inheritance.Album;
 import domain.inheritance.ArtItem;
 import domain.inheritance.Book;
 import domain.inheritance.Movie;
-import jpa.JpaMainTemplate;
-
 import javax.persistence.EntityManager;
+import jpa.JpaMainTemplate;
 
 public class JpaMain extends JpaMainTemplate {
 

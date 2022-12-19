@@ -1,5 +1,6 @@
 package org.example.domain;
 
+import com.google.common.base.Preconditions;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -54,5 +55,18 @@ public class Item {
 
     public void removeCategory(Category category) {
         categoryList.remove(category);
+    }
+
+    public void addStock(Integer count) {
+        Preconditions.checkArgument(count > 0, String.format("count should be greater than 0 [%d]", count));
+
+        this.stockQuantity += count;
+    }
+
+    public void removeStock(int count) {
+        Preconditions.checkArgument(count > 0, String.format("count should be greater than 0 [%d]", count));
+        Preconditions.checkArgument(count <= this.stockQuantity, String.format("count should be less or equal than %d [%d]", this.stockQuantity, count));
+
+        this.stockQuantity -= count;
     }
 }

@@ -2,5 +2,10 @@ spring:
   datasource:
     username: sa
     password:
-    url: jdbc:h2:mem:test
+#    url: jdbc:h2:mem:test
+    url: jdbc:h2:tcp://localhost/~/Workspace/h2-data/default
     driver-class-name: org.h2.Driver
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: create

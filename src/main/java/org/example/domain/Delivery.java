@@ -34,5 +34,6 @@ public class Delivery {
     private Address address;
 
     @Enumerated(value = EnumType.STRING)
-    private DeliveryStatus status;
+    @Builder.Default
+    private DeliveryStatus status = DeliveryStatus.IN_PROGRESS;
 }

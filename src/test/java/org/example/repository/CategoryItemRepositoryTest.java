@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Deprecated
-class CategoryItemRepositoryTest extends JpaRepositoryTest<CategoryItem, Long> {
+class CategoryItemRepositoryTest /*extends JpaRepositoryTest<CategoryItem, Long> */{
 
-    @Autowired
+   /* @Autowired
     private CategoryItemRepository repository;
 
     @Override
@@ -20,5 +20,5 @@ class CategoryItemRepositoryTest extends JpaRepositoryTest<CategoryItem, Long> {
     @Override
     protected CategoryItem createTestInstance() {
         return CategoryItemDataSet.testData();
-    }
+    }*/
 }

@@ -37,6 +37,34 @@ public class OrderItem {
 
     private Integer count;
 
+    public static OrderItem of(Item item, int orderPrice, int count) {
+        OrderItem orderItem = OrderItem.builder()
+            .item(item)
+            .orderPrice(orderPrice)
+            .count(count)
+            .build();
+
+        item.removeStock(count);
+
+        return orderItem;
+    }
+
+    public void cancel() {
+        this.item.addStock(count);
+    }
+
+    public int getTotalPrice() {
+        return orderPrice * count;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     @Override
     public String toString() {
         return "OrderItem{" +
@@ -46,18 +74,5 @@ public class OrderItem {
             ", orderPrice=" + orderPrice +
             ", count=" + count +
             '}';
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public void setOrder(Order order) {
-        if (this.order != null) {
-            this.order.getOrderItemList().remove(this);
-        }
-
-        this.order = order;
-        this.order.getOrderItemList().add(this);
     }
 }

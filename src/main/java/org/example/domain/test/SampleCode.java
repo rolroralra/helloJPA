@@ -1,7 +1,11 @@
 package org.example.domain.test;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.time.LocalDate;
+import java.util.List;
 import org.example.domain.Address;
 import org.example.domain.Category;
 import org.example.domain.Delivery;
@@ -144,57 +148,6 @@ public class SampleCode extends JpaMainTemplate {
         category.removeItem(item3);
         em.flush();
 
-//        CategoryItem categoryItem = CategoryItem.builder()
-//            .category(category)
-//            .item(item2)
-//            .build();
-//        categoryItem.setCategory(category);
-//        categoryItem.setItem(item2);
-//
-//        CategoryItem categoryItem2 = CategoryItem.builder()
-//            .category(category3)
-//            .item(item2)
-//            .build();
-//        categoryItem2.setCategory(category3);
-//        categoryItem2.setItem(item2);
-//
-//        CategoryItem categoryItem3 = CategoryItem.builder()
-//            .category(category2)
-//            .item(item)
-//            .build();
-//        categoryItem3.setCategory(category2);
-//        categoryItem3.setItem(item);
-//
-//        CategoryItem categoryItem4 =  CategoryItem.builder()
-//            .category(category)
-//            .item(item3)
-//            .build();
-//        categoryItem4.setCategory(category);
-//        categoryItem4.setItem(item3);
-//
-//        CategoryItem categoryItem5 = CategoryItem.builder()
-//            .category(category2)
-//            .item(item3)
-//            .build();
-//        categoryItem5.setCategory(category2);
-//        categoryItem5.setItem(item3);
-//
-//        CategoryItem categoryItem6 = CategoryItem.builder()
-//            .category(category3)
-//            .item(item3)
-//            .build();
-//        categoryItem6.setCategory(category3);
-//        categoryItem6.setItem(item3);
-//
-//        em.persist(categoryItem);
-//        em.persist(categoryItem2);
-//        em.persist(categoryItem3);
-//        em.persist(categoryItem4);
-//        em.persist(categoryItem5);
-//        em.persist(categoryItem6);
-
-        em.flush();
-
         Member findMember = em.find(Member.class, member.getId());
         System.out.println("findMember = " + findMember);
         System.out.println("member.getOrderList() = " +  member.getOrderList());
@@ -220,6 +173,30 @@ public class SampleCode extends JpaMainTemplate {
         Category findCategory = em.find(Category.class, category.getId());
         System.out.println("findCategory = " + findCategory);
         System.out.println("findCategory.getCategoryItemList() = " + findCategory.getItemList());
+
+        em.clear();
+
+        // JQPL
+        String jpql = "select m from Member as m where m.name = 'test'";
+        List<Member> resultList = em.createQuery(jpql, Member.class).getResultList();
+        System.out.println("resultList = " + resultList);
+
+        // Criteria
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Member> query = cb.createQuery(Member.class);
+
+        Root<Member> m = query.from(Member.class);
+        CriteriaQuery<Member> cq = query.select(m)
+            .where(cb.equal(m.get("name"), "test"));
+
+        List<Member> resultListByCriteria = em.createQuery(cq).getResultList();
+        System.out.println("resultListByCriteria = " + resultListByCriteria);
+
+        // Native SQL
+        String sql = "SELECT * FROM MEMBER WHERE NAME = 'test'";
+        List<Member> resultListByNativeQuery = em.createNativeQuery(sql, Member.class).getResultList();
+        System.out.println("resultListByNativeQuery = " + resultListByNativeQuery);
+
 
     }
 }

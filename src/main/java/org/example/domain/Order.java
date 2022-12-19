@@ -13,6 +13,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,7 +46,42 @@ public class Order {
     private LocalDate orderDate;
 
     @Enumerated(value = EnumType.STRING)
-    private OrderStatus status;
+    @Builder.Default
+    private OrderStatus status = OrderStatus.ORDER;
+
+    public static Order of(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+
+        Arrays.stream(orderItems)
+            .forEach(order::addOrderItem);
+
+        order.status = OrderStatus.ORDER;
+        order.orderDate = LocalDate.now();
+        return order;
+    }
+
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMPLETED) {
+            throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다");
+        }
+
+        this.status = OrderStatus.CANCEL;
+
+        orderItemList.forEach(OrderItem::cancel);
+    }
+
+    public int getTotalPrice() {
+        return orderItemList.stream()
+            .mapToInt(OrderItem::getTotalPrice)
+            .sum();
+    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        this.orderItemList.add(orderItem);
+        orderItem.setOrder(this);
+    }
 
     public void setMember(Member member) {
         if (this.member != null) {

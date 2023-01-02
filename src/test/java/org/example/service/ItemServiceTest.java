@@ -1,7 +1,6 @@
 package org.example.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 import org.example.domain.Item;
